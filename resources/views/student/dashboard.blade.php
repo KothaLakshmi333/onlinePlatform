@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="mt-2 text-2xl font-medium text-gray-900">
-            {{ __('Skill Share') }}
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Student') }}
         </h2>
     </x-slot>
 

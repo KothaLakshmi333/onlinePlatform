@@ -20,6 +20,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'role' => ['required', 'in:student,instructor,admin'],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
         ])->validateWithBag('updateProfileInformation');
 
@@ -31,9 +32,20 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user instanceof MustVerifyEmail) {
             $this->updateVerifiedUser($user, $input);
         } else {
+            // if ($input['role'] !== $user->role) {
+            //     $user->pending_role = $input['role'];
+            //     $user->save();
+
+            //     // Notify admin about the role change request
+            //     $this->notifyAdmins($user);
+
+            //     return;
+            // }
+
             $user->forceFill([
                 'name' => $input['name'],
                 'email' => $input['email'],
+                'role' => $input['role'],
             ])->save();
         }
     }
@@ -48,9 +60,17 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         $user->forceFill([
             'name' => $input['name'],
             'email' => $input['email'],
+            'role' => $input['role'],
             'email_verified_at' => null,
         ])->save();
 
         $user->sendEmailVerificationNotification();
     }
+    // protected function notifyAdmins(User $user)
+    // {
+    //     $admins = User::where('role', 'admin')->get();
+    //     foreach ($admins as $admin) {
+    //         $admin->notify(new \App\Notifications\RoleChangeRequest($user->email, $user->name));
+    //     }
+    // }
 }

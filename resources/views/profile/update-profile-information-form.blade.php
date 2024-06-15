@@ -59,6 +59,20 @@
             <x-input-error for="name" class="mt-2" />
         </div>
 
+        <!-- Role -->
+
+        <div class="col-span-6 sm:col-span-4">
+                <x-label for="role" value="{{ __('Role') }}" />
+                <select id="role" name="role" class="block mt-1 w-full form-control"  wire:model="state.role" required autocomplete="role">
+                    <option value="student" {{ old('role') == 'student' ? 'selected' : '' }}>Student</option>
+                    <option value="instructor" {{ old('role') == 'instructor' ? 'selected' : '' }}>Instructor</option>
+                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                </select>
+                <!-- @if ($this->user->pending_role)
+        <p class="text-sm text-red-500">Role change is pending admin approval needs.</p>
+    @endif -->
+        </div>
+
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="email" value="{{ __('Email') }}" />

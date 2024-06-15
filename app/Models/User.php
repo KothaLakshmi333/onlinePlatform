@@ -11,6 +11,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -28,6 +29,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'role',
         'password',
     ];
 
@@ -64,4 +66,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
+ 
 }

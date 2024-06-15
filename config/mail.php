@@ -1,5 +1,6 @@
 <?php
-
+use Illuminate\Support\Facades\Mail;
+use App\Models\User;
 return [
 
     /*
@@ -114,3 +115,12 @@ return [
     ],
 
 ];
+ // Retrieve the user who initiated the request (replace this with your logic)
+ $user = User::find($userId);
+
+ // Send the email using the user's email address as the 'from' address
+ Mail::send([], [], function ($message) use ($user) {
+     $message->from($user->email, $user->name);
+     $message->to('recipient@example.com')->subject('Subject');
+     $message->setBody('Email body');
+ });
